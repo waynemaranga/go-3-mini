@@ -18,13 +18,13 @@ func ConnectDB() {
 		log.Fatal(err)
 	}
 	collection = client.Database(DBName).Collection(Collection)
-	fmt.Println("Connected to MongoDB")
+	fmt.Println("✅ Connected to MongoDB")
 }
 
 func SaveChat(chat ChatMessage) {
 	_, err := collection.InsertOne(context.TODO(), chat)
 	if err != nil {
-		log.Println("Error saving chat:", err)
+		log.Println("⛔ Error saving chat:", err)
 	}
 }
 
@@ -32,7 +32,7 @@ func GetChatHistory() []ChatMessage {
 	var chats []ChatMessage
 	cursor, err := collection.Find(context.TODO(), bson.D{})
 	if err != nil {
-		log.Println("Error fetching chats:", err)
+		log.Println("⛔ Error fetching chats:", err)
 		return chats
 	}
 	defer cursor.Close(context.TODO())

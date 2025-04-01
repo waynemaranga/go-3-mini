@@ -8,16 +8,16 @@ import (
 )
 
 func StartShell() {
-	fmt.Println("Chatbot Shell - Type 'exit' to quit")
+	fmt.Println("🐻 go-3-mini - Type 'exit' to quit")
 	reader := bufio.NewReader(os.Stdin)
 
 	for {
-		fmt.Print("You: ")
+		fmt.Print("🐨 You: ")
 		input, _ := reader.ReadString('\n')
 		input = strings.TrimSpace(input)
 
 		if input == "exit" {
-			fmt.Println("Goodbye!")
+			fmt.Println("👋 Goodbye!")
 			break
 		}
 
@@ -30,6 +30,6 @@ func StartShell() {
 		botMessage := ChatMessage{Role: "assistant", Content: aiResponse}
 		SaveChat(botMessage)
 
-		fmt.Println("Bot:", aiResponse)
+		fmt.Println("🐻 o3-mini:", aiResponse)
 	}
 }

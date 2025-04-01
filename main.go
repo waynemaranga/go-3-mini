@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	fmt.Println("Starting Chatbot...")
+	fmt.Println("⏳ Starting go-3-mini...")
 	lib.ConnectDB()
 	lib.StartShell()
 }

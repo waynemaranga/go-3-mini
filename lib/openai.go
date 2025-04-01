@@ -6,9 +6,6 @@ import (
 	"fmt"
 	"io"
 	"net/http"
-	"os"
-
-	"github.com/joho/godotenv"
 )
 
 type ChatMessage struct {
@@ -29,11 +26,6 @@ type OpenAIResponse struct {
 }
 
 func GetAIResponse(history []ChatMessage) string {
-	// Load environment variables
-	godotenv.Load(".env")
-	apiKey := os.Getenv("AZURE_OPENAI_API_KEY")
-	targetURI := os.Getenv("AZURE_OPENAI_TARGET_URI")
-
 	// Set up the request
 	requestBody, _ := json.Marshal(OpenAIRequest{
 		Model:               "o3-mini",
@@ -41,15 +33,15 @@ func GetAIResponse(history []ChatMessage) string {
 		MaxCompletionTokens: 100000,
 	})
 
-	req, _ := http.NewRequest("POST", targetURI, bytes.NewBuffer(requestBody))
-	req.Header.Set("api-key", apiKey)
+	req, _ := http.NewRequest("POST", AzureOpenAITargetURI, bytes.NewBuffer(requestBody))
+	req.Header.Set("api-key", AzureOpenAIAPIKey)
 	req.Header.Set("Content-Type", "application/json")
 
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
-		fmt.Println("Error calling API:", err)
-		return "Error"
+		fmt.Println("⛔ Error calling API:", err)
+		return "⛔ Error calling API: " + err.Error()
 	}
 	defer resp.Body.Close()
 
@@ -63,6 +55,6 @@ func GetAIResponse(history []ChatMessage) string {
 	if len(openAIResp.Choices) > 0 {
 		return openAIResp.Choices[0].Message.Content
 	}
-	return "⛔ ERROR"
+	return "⛔ Error: No response"
 
 }

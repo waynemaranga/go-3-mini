@@ -1,11 +1,27 @@
 package lib
 
-import "os"
+import (
+	"log"
+	"os"
+
+	"github.com/joho/godotenv"
+)
 
 var (
-	// MongoURI   = os.Getenv("MONGO_URI") // Set this in your environment
-	MongoURI   = "mongodb://localhost:27017"
-	DBName     = "chatbot"
-	Collection = "messages"
-	OpenAIKey  = os.Getenv("OPENAI_API_KEY") // Set this in your environment
+	MongoURI             string
+	DBName               = "go_3_mini"
+	Collection           = "chats"
+	AzureOpenAIAPIKey    string
+	AzureOpenAITargetURI string
 )
+
+func init() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("⛔ Error loading .env file")
+	}
+
+	MongoURI = os.Getenv("MONGODB_URI")
+	AzureOpenAIAPIKey = os.Getenv("AZURE_OPENAI_API_KEY")
+	AzureOpenAITargetURI = os.Getenv("AZURE_OPENAI_TARGET_URI")
+}
