@@ -1,0 +1,8 @@
+/* import fonts.css files */
+@import "./fonts.css";
+
+/* Global Styles */
+
+* {
+  font-family: "Space Grotesk", sans-serif;
+}

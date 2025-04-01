@@ -1,0 +1,33 @@
+<div class="chat-container">
+  <div class="header">
+    <!-- // <h1><strong>🐻 go-3-mini</strong></h1> -->
+    <h1>🐻 go-3-mini</h1>
+  </div>
+  
+  <div class="chat-history" #chatHistory>
+    <div *ngFor="let message of messages" class="message" [ngClass]="message.role">
+      <div class="message-content">
+        <strong>{{ message.role === 'user' ? '🐨' : '🐻' }}:</strong> 
+        <span>{{ message.content }}</span>
+      </div>
+    </div>
+    <div *ngIf="loading" class="message assistant loading">
+      <div class="loading-animation">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="message-input">
+    <input 
+      type="text" 
+      [(ngModel)]="userMessage" 
+      placeholder="Type your message..." 
+      (keyup.enter)="sendMessage()"
+      [disabled]="loading"
+    >
+    <button (click)="sendMessage()" [disabled]="!userMessage || loading">Send</button>
+  </div>
+</div>
