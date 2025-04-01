@@ -24,6 +24,7 @@ func StartServer(port string) error {
 	mux.HandleFunc("/chat", chatHandler)
 	mux.HandleFunc("/prompt", promptHandler)
 	mux.HandleFunc("/chats", chatsHandler)
+	mux.HandleFunc("/health", healthHandler)
 
 	LogInfo("Server starting on port " + port)
 	return http.ListenAndServe(":"+port, mux)
@@ -106,4 +107,10 @@ func chatsHandler(w http.ResponseWriter, r *http.Request) {
 
 	history := GetChatHistoryFromCache()
 	json.NewEncoder(w).Encode(history)
+}
+
+func healthHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(map[string]string{"status": "ok"})
 }

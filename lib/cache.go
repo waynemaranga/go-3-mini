@@ -2,13 +2,16 @@
 package lib
 
 import (
+	"os"
+	"strconv"
 	"sync"
 )
 
 // In-memory cache for chat history
 var (
-	chatHistory []ChatMessage
-	mutex       sync.RWMutex
+	chatHistory  []ChatMessage
+	mutex        sync.RWMutex
+	maxCacheSize int = 1000 // Default max cache size
 )
 
 // InitCache loads initial chat history from DB
@@ -38,4 +41,15 @@ func GetChatHistoryFromCache() []ChatMessage {
 	historyCopy := make([]ChatMessage, len(chatHistory))
 	copy(historyCopy, chatHistory)
 	return historyCopy
+}
+
+func init() {
+	if sizeStr := os.Getenv("CACHE_SIZE"); sizeStr != "" {
+		if size, err := strconv.Atoi(sizeStr); err == nil {
+			maxCacheSize = size
+		}
+	}
+
+	// Can also check CACHE_ENABLED if you want to make caching optional
+	// cacheEnabled := os.Getenv("CACHE_ENABLED") == "true"
 }

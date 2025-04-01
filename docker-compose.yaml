@@ -13,6 +13,8 @@ services:
       - COLLECTION=${COLLECTION:-chats}
       - AZURE_OPENAI_API_KEY=${AZURE_OPENAI_API_KEY}
       - AZURE_OPENAI_TARGET_URI=${AZURE_OPENAI_TARGET_URI}
+      - CACHE_ENABLED=true
+      - CACHE_SIZE=1000
     depends_on:
       mongo:
         condition: service_healthy
