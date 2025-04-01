@@ -8,3 +8,4 @@
   - [ ] `/chat` - POST
   - [ ] `/chat/:id` - GET
   - [ ] `/prompt` - POST
+- [ ] Shell should use the HTTP server; OR have a local implementation and a server implementation. See what's better
