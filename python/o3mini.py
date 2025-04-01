@@ -4,9 +4,9 @@ import dotenv
 from typing import Optional
 from openai.types.chat.chat_completion import ChatCompletion
 
-dotenv.load_dotenv("./go-3-mini.env")
-ENDPOINT: Optional[str] = os.getenv("ENDPOINT")
-API_KEY: Optional[str] = os.getenv("API_KEY")
+dotenv.load_dotenv()
+ENDPOINT: Optional[str] = os.getenv("AZURE_OPENAI_ENDPOINT")
+API_KEY: Optional[str] = os.getenv("AZURE_OPENAI_API_KEY")
 
 client = AzureOpenAI(
     api_version="2025-01-01-preview",
@@ -33,8 +33,8 @@ def create_completion(
 
 
 if __name__ == "__main__":
-    user_message: str = "Hello, how are you?"
+    user_message: str = input("Enter your message: ")
     completion: ChatCompletion = create_completion(user_message)
-    # print(completion.choices[0].message.content)
-    print(completion)
+    print(f"\nResponse: {completion.choices[0].message.content}")
+    # print(completion)
     print("🐬")

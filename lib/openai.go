@@ -22,6 +22,12 @@ type OpenAIRequest struct {
 	MaxCompletionTokens int           `json:"max_completion_tokens,omitempty"`
 }
 
+type OpenAIResponse struct {
+	Choices []struct {
+		Message ChatMessage `json:"message"`
+	} `json:"choices"`
+}
+
 func GetAIResponse(history []ChatMessage) string {
 	// Load environment variables
 	godotenv.Load(".env")
@@ -47,9 +53,16 @@ func GetAIResponse(history []ChatMessage) string {
 	}
 	defer resp.Body.Close()
 
-	// Print the full raw response
+	// Read and parse response
 	bodyBytes, _ := io.ReadAll(resp.Body)
-	fmt.Println("Raw Response:", string(bodyBytes))
+	// fmt.Println("Raw Response:", string(bodyBytes)) // TODO: log this
 
-	return "Response logged"
+	var openAIResp OpenAIResponse
+	json.Unmarshal(bodyBytes, &openAIResp)
+
+	if len(openAIResp.Choices) > 0 {
+		return openAIResp.Choices[0].Message.Content
+	}
+	return "⛔ ERROR"
+
 }

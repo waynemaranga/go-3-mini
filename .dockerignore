@@ -1,0 +1,7 @@
+.env
+clients/
+python/
+.vscode/
+*.code-workspace
+README.md
+.gitignore
