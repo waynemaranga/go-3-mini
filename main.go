@@ -23,8 +23,11 @@ func main() {
 
 	switch choice {
 	case "1":
-		fmt.Println("🚀 Starting HTTP server on port 5467...")
-		lib.StartServer("5467")
+		fmt.Println("🚀 Starting HTTP server on port 8080...")
+		if err := lib.StartServer("8080"); err != nil {
+			fmt.Printf("⛔ Failed to start server: %v\n", err)
+			os.Exit(1)
+		}
 	case "2":
 		lib.StartShell()
 	default:
