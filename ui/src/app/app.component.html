@@ -7,7 +7,7 @@
   <div class="chat-history" #chatHistory>
     <div *ngFor="let message of messages" class="message" [ngClass]="message.role">
       <div class="message-content">
-        <strong>{{ message.role === 'user' ? '🐨' : '🐻' }}:</strong> 
+        <strong>{{ message.role === 'user' ? '🐨' : '🐻' }} <br></strong> 
         <span>{{ message.content }}</span>
       </div>
     </div>

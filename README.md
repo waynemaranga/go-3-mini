@@ -1,8 +1,17 @@
 # `go-3-mini`
 
-A lightweight chat application for OpenAI's o3-mini from Azure AI with MongoDB storage.
+<!-- Badges -->
+
+![Go](https://img.shields.io/badge/Go-00ADD8?style=for-the-badge&logo=go&logoColor=white)
+![Azure](https://img.shields.io/badge/microsoft%20azure-0089D6?style=for-the-badge&logo=microsoft-azure&logoColor=white)
+![Angular](https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white)
+![Typescript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+
+A lightweight chat application for OpenAI's **o3-mini** from Azure AI with MongoDB storage. The frontend is built with Angular and the backend is written in Go.
 
 ## 📚 Table of Contents
+
 - [`go-3-mini`](#go-3-mini)
   - [📚 Table of Contents](#-table-of-contents)
   - [☑️ Features](#️-features)
@@ -31,6 +40,7 @@ A lightweight chat application for OpenAI's o3-mini from Azure AI with MongoDB s
 - HTTP server with REST API
 - Conversation history stored in MongoDB
 - Azure OpenAI integration for AI responses
+- Web interface
 
 ## 📦 Modules
 
@@ -42,6 +52,7 @@ A lightweight chat application for OpenAI's o3-mini from Azure AI with MongoDB s
 - **`openai.go`**: Azure OpenAI API integration
 - **`server.go`**: HTTP server with REST endpoints
 - **`shell.go`**: Interactive command-line interface
+- **`ui`**: Angular frontend for web interface
 
 ## 🏁 Quick Start
 
@@ -50,6 +61,7 @@ A lightweight chat application for OpenAI's o3-mini from Azure AI with MongoDB s
 - Go 1.23+
 - MongoDB (local or remote)
 - Azure OpenAI API access
+- Node.js 20+
 
 ### 🛠️ Setup
 
@@ -67,13 +79,20 @@ A lightweight chat application for OpenAI's o3-mini from Azure AI with MongoDB s
 
 ### ⏳ Running the Application
 
-Start with either interactive shell or HTTP server:
+0. (Locally) Start MongoDB server:
+
+```bash
+mkdir -p .mongo/
+mongod --dbpath .mongo/
+```
+
+1. Start app with either interactive shell or HTTP server:
 
 ```bash
 go run main.go
 ```
 
-Choose mode when prompted:
+2. Choose mode when prompted:
 
 ```bash
 1️⃣. Start HTTP server
