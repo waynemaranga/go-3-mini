@@ -4,23 +4,21 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"go-3-mini/config"
-	"go-3-mini/models"
 	"net/http"
 )
 
 type OpenAIRequest struct {
-	Model    string               `json:"model"`
-	Messages []models.ChatMessage `json:"messages"`
+	Model    string        `json:"model"`
+	Messages []ChatMessage `json:"messages"`
 }
 
 type OpenAIResponse struct {
 	Choices []struct {
-		Message models.ChatMessage `json:"message"`
+		Message ChatMessage `json:"message"`
 	} `json:"choices"`
 }
 
-func GetAIResponse(history []models.ChatMessage) string {
+func GetAIResponse(history []ChatMessage) string {
 	url := "https://api.openai.com/v1/chat/completions"
 	requestBody, _ := json.Marshal(OpenAIRequest{
 		Model:    "gpt-3.5-turbo",
@@ -28,7 +26,7 @@ func GetAIResponse(history []models.ChatMessage) string {
 	})
 
 	req, _ := http.NewRequest("POST", url, bytes.NewBuffer(requestBody))
-	req.Header.Set("Authorization", "Bearer "+config.OpenAIKey)
+	req.Header.Set("Authorization", "Bearer "+OpenAIKey)
 	req.Header.Set("Content-Type", "application/json")
 
 	client := &http.Client{}

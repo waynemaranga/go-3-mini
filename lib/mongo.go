@@ -3,8 +3,6 @@ package lib
 import (
 	"context"
 	"fmt"
-	"go-3-mini/config"
-	"go-3-mini/models"
 	"log"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -15,23 +13,23 @@ import (
 var collection *mongo.Collection
 
 func ConnectDB() {
-	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(config.MongoURI))
+	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(MongoURI))
 	if err != nil {
 		log.Fatal(err)
 	}
-	collection = client.Database(config.DBName).Collection(config.Collection)
+	collection = client.Database(DBName).Collection(Collection)
 	fmt.Println("Connected to MongoDB")
 }
 
-func SaveChat(chat models.ChatMessage) {
+func SaveChat(chat ChatMessage) {
 	_, err := collection.InsertOne(context.TODO(), chat)
 	if err != nil {
 		log.Println("Error saving chat:", err)
 	}
 }
 
-func GetChatHistory() []models.ChatMessage {
-	var chats []models.ChatMessage
+func GetChatHistory() []ChatMessage {
+	var chats []ChatMessage
 	cursor, err := collection.Find(context.TODO(), bson.D{})
 	if err != nil {
 		log.Println("Error fetching chats:", err)
@@ -39,7 +37,7 @@ func GetChatHistory() []models.ChatMessage {
 	}
 	defer cursor.Close(context.TODO())
 	for cursor.Next(context.TODO()) {
-		var chat models.ChatMessage
+		var chat ChatMessage
 		cursor.Decode(&chat)
 		chats = append(chats, chat)
 	}

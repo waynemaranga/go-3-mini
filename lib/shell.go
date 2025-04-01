@@ -3,9 +3,6 @@ package lib
 import (
 	"bufio"
 	"fmt"
-	"go-3-mini/ai"
-	"go-3-mini/db"
-	"go-3-mini/models"
 	"os"
 	"strings"
 )
@@ -24,14 +21,14 @@ func StartShell() {
 			break
 		}
 
-		userMessage := models.ChatMessage{Role: "user", Content: input}
-		db.SaveChat(userMessage)
+		userMessage := ChatMessage{Role: "user", Content: input}
+		SaveChat(userMessage)
 
-		history := db.GetChatHistory()
-		aiResponse := ai.GetAIResponse(history)
+		history := GetChatHistory()
+		aiResponse := GetAIResponse(history)
 
-		botMessage := models.ChatMessage{Role: "assistant", Content: aiResponse}
-		db.SaveChat(botMessage)
+		botMessage := ChatMessage{Role: "assistant", Content: aiResponse}
+		SaveChat(botMessage)
 
 		fmt.Println("Bot:", aiResponse)
 	}
