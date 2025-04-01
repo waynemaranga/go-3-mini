@@ -1,87 +1,71 @@
 # `go-3-mini`
-## Chat Application Using Azure OpenAI's o3-mini Model
 
-This project is a Go-based chat application using Azure's OpenAI Service to interact with the `o3-mini` reasoning model. The application facilitates conversations by sending user inputs to the model and displaying the generated responses.
+A lightweight chat application for OpenAI's o3-mini from Azure AI with MongoDB storage.
 
-## Project Structure
+## Features
 
-The project is organized as follows:
+- Interactive chat shell
+- HTTP server with REST API
+- Conversation history stored in MongoDB
+- Azure OpenAI integration for AI responses
 
-- `main.go`: The entry point of the application, managing user interactions and displaying chat responses.
-- `lib/`: Contains the core functionality of the application.
-  - `lib/ai_client.go`: Handles communication with the Azure OpenAI Service.
-  - `lib/models.go`: Defines data structures for chat messages and API requests/responses.
+## Modules
 
-## Features of the o3-mini Model
+### Core Modules
+- **config.go**: Loads environment variables (MongoDB URI, OpenAI API keys)
+- **logger.go**: Simple logging utilities
+- **mongo.go**: MongoDB connection and chat history management
+- **openai.go**: Azure OpenAI API integration
+- **server.go**: HTTP server with REST endpoints
+- **shell.go**: Interactive command-line interface
 
-The `o3-mini` model offers:
+## Quick Start
 
-- **Enhanced Reasoning**: Improved problem-solving capabilities, particularly in STEM fields such as science, mathematics, and coding.
-- **Cost Efficiency**: More affordable per-token pricing compared to earlier models like `o1-mini`, making it suitable for large-scale applications.
-- **Low Latency**: Faster response times, enhancing user experience in interactive applications.
+### Prerequisites
+- Go 1.20+
+- MongoDB (local or remote)
+- Azure OpenAI API access
 
-For more details, refer to the [Azure OpenAI Service announcement](https://azure.microsoft.com/en-us/blog/announcing-the-availability-of-the-o3-mini-reasoning-model-in-microsoft-azure-openai-service/).
-
-## Prerequisites
-
-Before running the application, ensure you have:
-
-- A Microsoft Azure account with access to the Azure OpenAI Service. <https://azure.microsoft.com/en-gb>
-- An active deployment of the `o3-mini` model within your Azure subscription. <https://ai.azure.com>
-- Go programming language installed on your system. <https://go.dev/doc/install>
-- Necessary environment variables configured for API access. See [`.env.example`](./.env.example) for reference.
-
-## Setup Instructions
-
-1. **Clone the Repository**:
-
-   ```bash
-   git clone https://github.com/waynemaranga/go-3-mini.git
-   cd go-3-mini
+### Setup
+1. Clone the repository
+2. Create `.env` file:
+   ```env
+   MONGODB_URI=mongodb://localhost:27017
+   AZURE_OPENAI_API_KEY=your_api_key
+   AZURE_OPENAI_TARGET_URI=https://your-endpoint.openai.azure.com/...
    ```
-
-2. **Install Dependencies**:
-
+3. Install dependencies:
    ```bash
    go mod tidy
    ```
 
-3. **Configure Environment Variables**:
+### Running the Application
+Start with either interactive shell or HTTP server:
+```bash
+go run main.go
+```
 
-   Duplicate `.env.example` as `.env` and fill in the required values from Azure AI Foundry:
+Choose mode when prompted:
+```bash
+1️⃣. Start HTTP server
+2️⃣. Start interactive shell
+```
 
-   ```env
-   AZURE_OPENAI_API_KEY=your_api_key_here
-   AZURE_OPENAI_TARGET_URI=https://your_endpoint_here/openai/deployments/o3-mini/chat/completions?api-version=2025-01-01-preview
-   ```
+### HTTP Server Endpoints
+- `POST /chat` - Chat with history (expects `{"message": "your text"}`)
+- `POST /prompt` - Single prompt (expects `{"prompt": "your text"}`)
+- `GET /chats` - Get all chat history
 
-4. **Run the Application**:
+### Interactive Shell
+Type messages directly and get AI responses. Type "exit" to quit.
 
-   ```sh
-   go run main.go
-   ```
-
-## How It Works
-
-1. **User Input**: The application prompts the user to enter a message.
-2. **API Request**: The input is sent to the `o3-mini` model via the Azure OpenAI Service.
-3. **Response Handling**: The model generates a response, which is displayed to the user.
-
-## Integration with Azure OpenAI Service
-
-The application communicates with the Azure OpenAI Service using HTTP requests. The key integration points are:
-
-- **API Endpoint**: Defined by the `AZURE_OPENAI_TARGET_URI` environment variable.
-- **Authentication**: Managed via the `AZURE_OPENAI_API_KEY` environment variable.
-- **Request Structure**: The application constructs a JSON payload containing the model name, input messages, and other parameters, which is then sent to the API endpoint.
-
-## Additional Resources
-
-For more information on the `o3-mini` model and Azure OpenAI Service, refer to:
-
-- [Azure OpenAI Service Models](https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/models)
-- [Azure AI Foundry Model Catalog](https://ai.azure.com/explore/models/o3-mini/version/2025-01-31/registry/azure-openai)
+## Configuration
+Edit `.env.example` file into `.env` to configure:
+- MongoDB connection string
+- Azure OpenAI credentials
+- Database name (default: `go_3_mini`)
 
 ## License
+MIT. See [LICENSE.md](./LICENSE.d) for more information.
 
-This project is licensed under the MIT License. 
+
