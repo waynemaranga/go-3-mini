@@ -2,23 +2,45 @@ version: '3.8'
 
 services:
   app:
-    build: .
+    build: 
+      context: .
+      dockerfile: Dockerfile
     ports:
-      - "8080:8080"
-    depends_on:
-      - mongo
+      - "${APP_PORT:-8080}:8080"
     environment:
-      MONGO_URI: "mongodb://mongo:27017/chatdb"
+      - MONGO_URI=mongodb://mongo:27017/${DB_NAME:-go_3_mini}?authSource=admin
+      - DB_NAME=${DB_NAME:-go_3_mini}
+      - COLLECTION=${COLLECTION:-chats}
+      - AZURE_OPENAI_API_KEY=${AZURE_OPENAI_API_KEY}
+      - AZURE_OPENAI_TARGET_URI=${AZURE_OPENAI_TARGET_URI}
+    depends_on:
+      mongo:
+        condition: service_healthy
+    restart: unless-stopped
     networks:
       - app-network
+    healthcheck:
+      test: ["CMD-SHELL", "wget --spider http://localhost:8080/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   mongo:
-    image: mongo:latest
+    image: mongo:6.0
     container_name: mongodb
     ports:
-      - "27017:27017"
+      - "${MONGO_PORT:-27017}:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER:-root}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD:-example}
     volumes:
       - mongo-data:/data/db
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     networks:
       - app-network
 
@@ -27,3 +49,4 @@ volumes:
 
 networks:
   app-network:
+    driver: bridge
