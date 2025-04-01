@@ -19,6 +19,7 @@ A lightweight chat application for OpenAI's **o3-mini** from Azure AI with Mongo
     - [📦 Core Modules](#-core-modules)
   - [🏁 Quick Start](#-quick-start)
     - [🧰 Prerequisites](#-prerequisites)
+    - [Azure OpenAI API](#azure-openai-api)
     - [🛠️ Setup](#️-setup)
     - [⏳ Running the Application](#-running-the-application)
     - [HTTP Server Endpoints](#http-server-endpoints)
@@ -62,6 +63,16 @@ A lightweight chat application for OpenAI's **o3-mini** from Azure AI with Mongo
 - MongoDB (local or remote)
 - Azure OpenAI API access
 - Node.js 20+
+
+### Azure OpenAI API
+
+1. Create an Azure account
+   - You can use the free tier for OpenAI or
+   - **You can use Microsoft for Startups to get $1000 in Azure credits** <https://www.microsoft.com/en-us/startups>
+2. Create an OpenAI resource
+   - In Azure you can use Azure AI Foundry at <https://ai.azure.com>
+3. Get the API key and endpoint URL
+
 
 ### 🛠️ Setup
 
