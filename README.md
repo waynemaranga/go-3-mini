@@ -36,12 +36,12 @@ A lightweight chat application for OpenAI's o3-mini from Azure AI with MongoDB s
 
 ### 📦 Core Modules
 
-- **config.go**: Loads environment variables (MongoDB URI, OpenAI API keys)
-- **logger.go**: Simple logging utilities
-- **mongo.go**: MongoDB connection and chat history management
-- **openai.go**: Azure OpenAI API integration
-- **server.go**: HTTP server with REST endpoints
-- **shell.go**: Interactive command-line interface
+- **`config.go`**: Loads environment variables (MongoDB URI, OpenAI API keys)
+- **`logger.go`**: Simple logging utilities
+- **`mongo.go`**: MongoDB connection and chat history management
+- **`openai.go`**: Azure OpenAI API integration
+- **`server.go`**: HTTP server with REST endpoints
+- **`shell.go`**: Interactive command-line interface
 
 ## 🏁 Quick Start
 

@@ -1,3 +1,4 @@
+// lib/mongo.go
 package lib
 
 import (
@@ -21,14 +22,14 @@ func ConnectDB() {
 	fmt.Println("✅ Connected to MongoDB")
 }
 
-func SaveChat(chat ChatMessage) {
+func SaveChatToDB(chat ChatMessage) {
 	_, err := collection.InsertOne(context.TODO(), chat)
 	if err != nil {
 		log.Println("⛔ Error saving chat:", err)
 	}
 }
 
-func GetChatHistory() []ChatMessage {
+func GetChatHistoryFromDB() []ChatMessage {
 	var chats []ChatMessage
 	cursor, err := collection.Find(context.TODO(), bson.D{})
 	if err != nil {

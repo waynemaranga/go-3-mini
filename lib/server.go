@@ -49,14 +49,15 @@ func chatHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	history := GetChatHistory()
 	userMessage := ChatMessage{Role: "user", Content: req.Message}
-	history = append(history, userMessage)
-	SaveChat(userMessage)
+	AddChat(userMessage)
+
+	// Get history from cache
+	history := GetChatHistoryFromCache()
 
 	aiResponse := GetAIResponse(history)
 	aiMessage := ChatMessage{Role: "assistant", Content: aiResponse}
-	SaveChat(aiMessage)
+	AddChat(aiMessage)
 
 	json.NewEncoder(w).Encode(map[string]string{"response": aiResponse})
 }
@@ -103,6 +104,6 @@ func chatsHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	history := GetChatHistory()
+	history := GetChatHistoryFromCache()
 	json.NewEncoder(w).Encode(history)
 }

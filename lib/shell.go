@@ -1,3 +1,4 @@
+// lib/shell.go
 package lib
 
 import (
@@ -22,13 +23,13 @@ func StartShell() {
 		}
 
 		userMessage := ChatMessage{Role: "user", Content: input}
-		SaveChat(userMessage)
+		AddChat(userMessage)
 
-		history := GetChatHistory()
+		history := GetChatHistoryFromCache()
 		aiResponse := GetAIResponse(history)
 
 		botMessage := ChatMessage{Role: "assistant", Content: aiResponse}
-		SaveChat(botMessage)
+		AddChat(botMessage)
 
 		fmt.Println("🐻 o3-mini:", aiResponse)
 	}

@@ -11,6 +11,7 @@ import (
 func main() {
 	fmt.Println("⏳ Starting go-3-mini...")
 	lib.ConnectDB()
+	lib.InitCache() // Initialize the cache
 
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Println("☑️ Choose an option:")
