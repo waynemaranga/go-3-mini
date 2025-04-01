@@ -10,6 +10,7 @@ export interface ChatMessage {
 @Injectable({
   providedIn: 'root',
 })
+
 export class ChatService {
   private apiUrl = 'http://localhost:8080';
 
