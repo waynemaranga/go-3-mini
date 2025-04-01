@@ -5,11 +5,20 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"os"
+
+	"github.com/joho/godotenv"
 )
 
+type ChatMessage struct {
+	Role    string `json:"role"`
+	Content string `json:"content"`
+}
+
 type OpenAIRequest struct {
-	Model    string        `json:"model"`
-	Messages []ChatMessage `json:"messages"`
+	Model               string        `json:"model"`
+	Messages            []ChatMessage `json:"messages"`
+	MaxCompletionTokens int           `json:"max_tokens,omitempty"`
 }
 
 type OpenAIResponse struct {
@@ -19,20 +28,48 @@ type OpenAIResponse struct {
 }
 
 func GetAIResponse(history []ChatMessage) string {
-	url := "https://api.openai.com/v1/chat/completions"
+	// Load environment variables
+	godotenv.Load(".env")
+	// endpoint := os.Getenv("AZURE_OPENAI_ENDPOINT")
+	apiKey := os.Getenv("AZURE_OPENAI_API_KEY")
+	targetURI := os.Getenv("AZURE_OPENAI_TARGET_URI")
+
+	// Create request with system message if not already in history
+	messages := history
+	hasSystemMessage := false
+	for _, msg := range messages {
+		if msg.Role == "system" {
+			hasSystemMessage = true
+			break
+		}
+	}
+
+	if !hasSystemMessage {
+		systemMessage := ChatMessage{
+			Role:    "system",
+			Content: "You are a helpful assistant.",
+		}
+		messages = append([]ChatMessage{systemMessage}, messages...)
+	}
+
+	// Set up the request
+	// url := endpoint + "/openai/deployments/o3-mini/chat/completions?api-version=2025-01-01-preview"
+	url := targetURI
+
 	requestBody, _ := json.Marshal(OpenAIRequest{
-		Model:    "gpt-3.5-turbo",
-		Messages: history,
+		Model:               "o3-mini",
+		Messages:            messages,
+		MaxCompletionTokens: 100000,
 	})
 
 	req, _ := http.NewRequest("POST", url, bytes.NewBuffer(requestBody))
-	req.Header.Set("Authorization", "Bearer "+OpenAIKey)
+	req.Header.Set("api-key", apiKey)
 	req.Header.Set("Content-Type", "application/json")
 
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
-		fmt.Println("Error calling OpenAI:", err)
+		fmt.Println("Error calling API:", err)
 		return "Error"
 	}
 	defer resp.Body.Close()
