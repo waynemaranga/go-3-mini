@@ -1,10 +1,20 @@
 {
-	"folders": [
-		{
-			"path": "."
-		}
-	],
-	"settings": {
-		"editor.defaultFormatter": "golang.go"
-	}
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "[go]": {
+      "editor.insertSpaces": false,
+      "editor.formatOnSave": true,
+      "editor.codeActionsOnSave": {
+        "source.organizeImports": "explicit"
+      },
+      "editor.defaultFormatter": "golang.go"
+    },
+    "[css]": {
+      "editor.defaultFormatter": "vscode.css-language-features"
+    }
+  }
 }
