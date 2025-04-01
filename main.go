@@ -2,12 +2,11 @@ package main
 
 import (
 	"fmt"
-	"go-3-mini/db"
-	"go-3-mini/shell"
+	"go-3-mini/lib"
 )
 
 func main() {
 	fmt.Println("Starting Chatbot...")
-	db.ConnectDB()
-	shell.StartShell()
+	lib.ConnectDB()
+	lib.StartShell()
 }
